@@ -9,16 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "next": "^16.2.1",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
-=======
     "firebase": "^12.11.0",
     "next": "16.2.1",
     "react": "19.2.4",
     "react-dom": "19.2.4"
->>>>>>> 4704cac281808c84a5ff4ac4216713beab523f44
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
