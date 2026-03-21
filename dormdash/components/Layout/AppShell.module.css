@@ -1,20 +1,22 @@
 .page {
     min-height: 100vh;
     background-color: #1f1f1f;
-    padding: 16px 24px;
+    padding: 0;
+    width: 100%;
   }
   
   .container {
-    min-height: 95vh;
+    width: 100%;
+    min-height: 100vh;
     background-color: #efefef;
     overflow: hidden;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: none;
   }
   
   .body {
     display: grid;
     grid-template-columns: 240px 1fr 220px;
-    min-height: calc(95vh - 112px);
+    min-height: calc(100vh - 112px);
   }
   
   .sidebarArea {
