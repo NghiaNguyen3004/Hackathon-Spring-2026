@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "username": "WALUIGI",
+      "plainPassword": "WALUIGI",
+      "fullName": "WALUIGI"
+    },
+    {
+      "username": "AMONGUS",
+      "plainPassword": "AMONGUS",
+      "fullName": "AMONGUS"
+    },
+    {
+      "username": "AMONGUSI",
+      "plainPassword": "AMONGUS",
+      "fullName": "AMONGUSi"
+    }
+  ]
+}

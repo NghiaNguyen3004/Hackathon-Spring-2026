@@ -1,9 +1,10 @@
 // src/auth/storage.ts
+"use server";
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import bcrypt from 'bcryptjs';
+//import bcrypt from 'bcryptjs';
 
-const USERS_FILE = path.join(process.cwd(), 'data', 'users.json');
+const USERS_FILE = "./data/users.json";
 
 // Ensure directory exists (demo convenience)
 async function ensureDataDir() {
@@ -18,7 +19,7 @@ async function ensureDataDir() {
 // Type definition for what we store
 export interface StoredUser {
   username: string;
-  passwordHash: string;
+  plainPassword: string;
   fullName?: string;
 }
 
@@ -71,12 +72,12 @@ export async function createUser(
     throw new Error(`Username "${username}" is already taken`);
   }
 
-  const salt = await bcrypt.genSalt(12);
-  const passwordHash = await bcrypt.hash(plainPassword, salt);
+  //const salt = await bcrypt.genSalt(12);
+ // const passwordHash = await bcrypt.hash(plainPassword, salt);
 
   data.users.push({
     username,
-    passwordHash,
+    plainPassword,
     fullName,
   });
 
@@ -96,6 +97,7 @@ export async function verifyCredentials(
   const user = data.users.find((u) => u.username === username);
   if (!user) return null;
 
-  const match = await bcrypt.compare(plainPassword, user.passwordHash);
+  //const match = await bcrypt.compare(plainPassword, user.plainPassword);
+  const match = plainPassword == user.plainPassword; 
   return match ? user : null;
 }

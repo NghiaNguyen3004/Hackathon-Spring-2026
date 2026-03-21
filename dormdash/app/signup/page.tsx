@@ -2,6 +2,7 @@
 type AuthMode = 'login' | 'signup';
 import React, { useState, FormEvent, ChangeEvent } from 'react';
 import { createUser, verifyCredentials } from '../storage';
+import { sign } from 'crypto';
 interface FormData {
   username: string;
   password: string;
@@ -23,7 +24,26 @@ const initialFormData: FormData = {
   fullName: '',
   confirmPassword: '',
 };
+async function signup(username: string, password: string, fullName?: string) {
+  try {
+    await createUser(username, password, fullName);
+    console.log('User created successfully');
+  } catch (err: any) {
+    console.error('Signup failed:', err.message);
+    throw err;
+  }
+}
 
+async function login(username: string, password: string) {
+  const user = await verifyCredentials(username, password);
+  if (user) {
+    console.log('Login successful', user.username);
+    // In real app: create session / JWT
+    return user;
+  } else {
+    throw new Error('Invalid username or password');
+  }
+}
 export default function AuthDemoPage() {
   const [mode, setMode] = useState<AuthMode>('login');
   const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -90,12 +110,14 @@ export default function AuthDemoPage() {
           password: formData.password,
         });
         // Simulate success → in real app: await authService.signUp(...)
+        signup(formData.username, formData.password, formData.fullName);
       } else {
         console.log('Login demo payload:', {
           username: formData.username,
           password: formData.password,
         });
         // Simulate success → in real app: await authService.login(...)
+        login(formData.username, formData.password);
       }
 
       // For demo purposes: pretend success and "redirect"
@@ -104,6 +126,7 @@ export default function AuthDemoPage() {
           ? 'Demo signup successful! (no real account created)'
           : 'Demo login successful! (no real authentication)'
       );
+      window.location.href = "/post" 
 
       // In a real app → navigate('/dashboard');
     } catch (err: any) {
