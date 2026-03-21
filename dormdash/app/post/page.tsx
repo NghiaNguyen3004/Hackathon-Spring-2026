@@ -18,12 +18,12 @@ export default function PostPage() {
         <div className={styles.feed}>
           <PostCard
             username="Nghia"
-            content="abcxyz"
+            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
           />
 
           <PostCard
             username="Evelyn"
-            content="abcxyz"
+            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
           />
         </div>
       </div>

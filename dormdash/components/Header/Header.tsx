@@ -6,7 +6,7 @@ type HeaderProps = {
 
 export default function Header({ username = "Username" }: HeaderProps) {
   return (
-    <header className={styles.header}>
+    <header className ={styles.header}>
       
       {/* Logo */}
       <h1 className={styles.logo}>DORMDASH</h1>

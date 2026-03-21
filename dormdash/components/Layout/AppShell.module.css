@@ -73,7 +73,7 @@
   }
   
   .fab {
-    position: absolute;
+    position: fixed;
     right: 24px;
     bottom: 24px;
     width: 72px;
