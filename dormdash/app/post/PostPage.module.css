@@ -1,0 +1,45 @@
+.wrapper {
+    width: 100%;
+  }
+  
+  .headerRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
+  .pageTitle {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+  }
+  
+  .searchInput {
+    width: 240px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .feed {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .card {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+  }
+  
+  .title {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+  }
+  
+  .description {
+    margin: 0;
+    color: #555;
+  }

@@ -1,0 +1,90 @@
+.page {
+    min-height: 100vh;
+    background-color: #1f1f1f;
+    padding: 16px 24px;
+  }
+  
+  .container {
+    min-height: 95vh;
+    background-color: #efefef;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+  
+  .body {
+    display: grid;
+    grid-template-columns: 240px 1fr 220px;
+    min-height: calc(95vh - 112px);
+  }
+  
+  .sidebarArea {
+    background-color: #f5f5f5;
+  }
+  
+  .contentArea {
+    background-color: #dfdfdf;
+    padding: 24px;
+  }
+  
+  .rightArea {
+    position: relative;
+    border-left: 1px solid #d5d5d5;
+    background-color: #f8f8f8;
+    padding: 24px;
+  }
+  
+  .quickActionsBox {
+    background-color: white;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  }
+  
+  .quickTitle {
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    text-transform: uppercase;
+  }
+  
+  .quickButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .quickButton {
+    border: none;
+    border-radius: 10px;
+    background-color: #f1f1f1;
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+    cursor: pointer;
+  }
+  
+  .quickButton:hover {
+    background-color: #e5e5e5;
+  }
+  
+  .fab {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    width: 72px;
+    height: 72px;
+    border: none;
+    border-radius: 50%;
+    background-color: #ff2b2b;
+    color: white;
+    font-size: 36px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  
+  .fab:hover {
+    transform: scale(1.05);
+  }

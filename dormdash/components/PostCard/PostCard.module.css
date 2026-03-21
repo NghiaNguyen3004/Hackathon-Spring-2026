@@ -1,0 +1,59 @@
+.card {
+    background-color: #e5e5e5;
+    padding: 24px;
+    border-radius: 12px;
+  }
+  
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #cfcfcf;
+  }
+  
+  .username {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+  }
+  
+  /* Content */
+  .content {
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+    color: #333;
+  }
+  
+  /* Actions */
+  .actions {
+    display: flex;
+    gap: 16px;
+  }
+  
+  /* Buttons */
+  .actions button {
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .accept,
+  .ignore,
+  .share {
+    background-color: #ff2b2b;
+    color: white;
+  }
+  
+  .actions button:hover {
+    opacity: 0.85;
+  }

@@ -1,0 +1,40 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+    background-color: #ff2b2b;
+    padding: 20px 24px;
+  }
+  
+  /* Logo */
+  .logo {
+    margin: 0;
+    color: white;
+  
+    font-size: 64px;
+    font-weight: 900;
+    letter-spacing: 2px;
+  }
+  
+  /* Right side */
+  .userSection {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .greeting {
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+  }
+  
+  /* Avatar circle */
+  .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+  
+    background-color: #d9d9d9;
+  }
