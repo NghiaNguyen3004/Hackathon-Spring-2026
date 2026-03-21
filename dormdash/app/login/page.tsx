@@ -1,46 +1,26 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
 
-export default function SignupPage() {
+export default function LoginPage() {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState<"error" | "success" | "">("");
   const [loading, setLoading] = useState(false);
 
-  const handleSignup = async (e: FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     setMessage("");
     setMessageType("");
 
-    if (!email || !username || !password || !confirmPassword) {
+    if (!email || !password) {
       setMessage("Please fill in all fields.");
-      setMessageType("error");
-      return;
-    }
-
-    if (username.trim().length < 3) {
-      setMessage("Username must be at least 3 characters.");
-      setMessageType("error");
-      return;
-    }
-
-    if (password.length < 6) {
-      setMessage("Password must be at least 6 characters.");
-      setMessageType("error");
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setMessage("Passwords do not match.");
       setMessageType("error");
       return;
     }
@@ -48,24 +28,19 @@ export default function SignupPage() {
     try {
       setLoading(true);
 
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      await signInWithEmailAndPassword(auth, email, password);
 
-      await updateProfile(userCredential.user, {
-        displayName: username.trim(),
-      });
+      setMessage("Login successful!");
+      setMessageType("success");
 
       router.push("/post");
     } catch (error: any) {
-      if (error.code === "auth/email-already-in-use") {
-        setMessage("This email is already in use.");
+      if (error.code === "auth/invalid-credential") {
+        setMessage("Incorrect email or password.");
       } else if (error.code === "auth/invalid-email") {
         setMessage("Invalid email address.");
-      } else if (error.code === "auth/weak-password") {
-        setMessage("Password is too weak.");
+      } else if (error.code === "auth/user-disabled") {
+        setMessage("This account has been disabled.");
       } else {
         setMessage("Something went wrong. Please try again.");
       }
@@ -79,26 +54,13 @@ export default function SignupPage() {
     <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-100 via-gray-100 to-slate-200 px-4 py-10">
       <div className="w-full max-w-md rounded-3xl bg-white p-8 shadow-2xl">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-900">Create Account</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Welcome Back</h1>
           <p className="mt-2 text-sm text-gray-500">
-            Join DormDash with your email, username, and password
+            Log in to your DormDash account
           </p>
         </div>
 
-        <form onSubmit={handleSignup} className="space-y-5">
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Username
-            </label>
-            <input
-              type="text"
-              placeholder="Enter your username"
-              className="w-full rounded-2xl border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-black focus:ring-2 focus:ring-gray-200"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-
+        <form onSubmit={handleLogin} className="space-y-5">
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
               Email
@@ -125,19 +87,6 @@ export default function SignupPage() {
             />
           </div>
 
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              placeholder="Re-enter your password"
-              className="w-full rounded-2xl border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-black focus:ring-2 focus:ring-gray-200"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-          </div>
-
           {message && (
             <div
               className={`rounded-2xl px-4 py-3 text-sm ${
@@ -155,7 +104,7 @@ export default function SignupPage() {
             disabled={loading}
             className="w-full rounded-2xl bg-red-500 py-3 text-sm font-semibold text-white transition hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {loading ? "Creating account..." : "Create Account"}
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
       </div>
