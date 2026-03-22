@@ -349,7 +349,7 @@ export default function MessagesPage() {
                         padding: 12,
                         background:
                           selectedConversationId === conversation.id
-                            ? "#f3f0ff"
+                            ? "#f4a4a0ff"
                             : "white",
                         cursor: "pointer",
                       }}
@@ -411,7 +411,7 @@ export default function MessagesPage() {
                         key={msg.id}
                         style={{
                           alignSelf: isMine ? "flex-end" : "flex-start",
-                          background: isMine ? "#7c3aed" : "#f3f4f6",
+                          background: isMine ? "#f34040ff" : "#f3f4f6",
                           color: isMine ? "white" : "black",
                           padding: "10px 14px",
                           borderRadius: 12,
