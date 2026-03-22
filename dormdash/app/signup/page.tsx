@@ -1,11 +1,9 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { auth, db } from "@/lib/firebase";
-import styles from "./PostPage.module.css";
+import { auth } from "@/lib/firebase";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -23,16 +21,13 @@ export default function SignupPage() {
     setMessage("");
     setMessageType("");
 
-    const cleanUsername = username.trim().toLowerCase();
-    const cleanEmail = email.trim();
-
-    if (!cleanEmail || !cleanUsername || !password || !confirmPassword) {
+    if (!email || !username || !password || !confirmPassword) {
       setMessage("Please fill in all fields.");
       setMessageType("error");
       return;
     }
 
-    if (cleanUsername.length < 3) {
+    if (username.trim().length < 3) {
       setMessage("Username must be at least 3 characters.");
       setMessageType("error");
       return;
@@ -53,41 +48,15 @@ export default function SignupPage() {
     try {
       setLoading(true);
 
-      // Check if username already exists
-      const usernameRef = doc(db, "usernames", cleanUsername);
-      const usernameSnap = await getDoc(usernameRef);
-
-      if (usernameSnap.exists()) {
-        setMessage("This username is already taken.");
-        setMessageType("error");
-        setLoading(false);
-        return;
-      }
-
-      // Create Firebase Auth account
       const userCredential = await createUserWithEmailAndPassword(
         auth,
-        cleanEmail,
+        email,
         password
       );
 
-      const user = userCredential.user;
-
-      // Save user profile in Firestore
-      await setDoc(doc(db, "users", user.uid), {
-        uid: user.uid,
-        email: user.email,
-        username: cleanUsername,
-        createdAt: new Date().toISOString(),
+      await updateProfile(userCredential.user, {
+        displayName: username.trim(),
       });
-
-      // Reserve username for uniqueness
-      await setDoc(doc(db, "usernames", cleanUsername), {
-        uid: user.uid,
-      });
-
-      setMessage("Account created successfully.");
-      setMessageType("success");
 
       router.push("/post");
     } catch (error: any) {

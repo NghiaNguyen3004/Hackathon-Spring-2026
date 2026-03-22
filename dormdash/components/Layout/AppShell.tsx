@@ -16,7 +16,7 @@ export default function AppShell({
   return (
     <main className={styles.page}>
       <div className={styles.container}>
-        <Header username={username} />
+        <Header/>
 
         <div className={styles.body}>
           <div className={styles.sidebarArea}>
@@ -28,10 +28,7 @@ export default function AppShell({
           <aside className={styles.rightArea}>
           
 
-          <Link href = "/request"
-          className = "flex-1 bg-red hover:bg-gray-300 text-gray-600 text-sm font-semibold py-3 text-center transition-colors duration-200 rounded-md">
-            +
-          </Link>
+          <button className = {styles.button}>+</button>
           
           </aside>
         </div>

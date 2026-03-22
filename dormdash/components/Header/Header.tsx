@@ -1,24 +1,25 @@
-"use client";
-
 import styles from "./Header.module.css";
-import HeaderUser from "./HeaderUser";
 
-export default function Header() {
+type HeaderProps = {
+  username?: string;
+};
+
+export default function Header({ username = "Username" }: HeaderProps) {
   return (
-    <header className={styles.header}>
-      {/* LEFT: Logo */}
-      <div className={styles.left}>
-        <h1 className={styles.logo}>DORMDASH</h1>
-      </div>
+    <header className ={styles.header}>
+      
+      {/* Logo */}
+      <h1 className={styles.logo}>DORMDASH</h1>
 
-      {/* RIGHT: User info */}
-      <div className={styles.right}>
+      {/* User section */}
+      <div className={styles.userSection}>
         <span className={styles.greeting}>
-          <HeaderUser />
+          HI, {username}
         </span>
 
-        <div className={styles.avatar} />
+        <div className={styles.avatar}></div>
       </div>
+
     </header>
   );
 }
