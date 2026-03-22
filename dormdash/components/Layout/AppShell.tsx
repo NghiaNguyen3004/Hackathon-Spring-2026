@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
 import styles from "./AppShell.module.css";
-import Link from "next/link";
+import RequestModal from "../RequestModal/RequestModal";
 
 type AppShellProps = {
   children: ReactNode;
@@ -13,6 +13,8 @@ export default function AppShell({
   children,
   username = "Username",
 }: AppShellProps) {
+
+  const [show, setShow] = useState(false);
   return (
     <main className={styles.page}>
       <div className={styles.container}>
@@ -27,15 +29,14 @@ export default function AppShell({
 
           <aside className={styles.rightArea}>
           
-
-          <Link href = "/request"
-          className = "flex-1 bg-red hover:bg-gray-300 text-gray-600 text-sm font-semibold py-3 text-center transition-colors duration-200 rounded-md">
-            +
-          </Link>
-          
+          <button className={styles.fab} onClick={() => setShow(true)}>+</button>
+          <RequestModal isOpen = {show} onClose ={() => setShow(false)}>  
+            <h1>Hi</h1>
+          </RequestModal>
           </aside>
         </div>
       </div>
     </main>
   );
 }
+

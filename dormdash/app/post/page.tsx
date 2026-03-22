@@ -1,9 +1,13 @@
+"use client";
 import AppShell from "@/components/Layout/AppShell";
 import PostCard from "@/components/PostCard/PostCard";
 import styles from "./PostPage.module.css";
-import RequestList from "@/components/RequestList/RequestList";
+import RequestModal from "@/components/RequestModal/RequestModal";
+import { useState } from "react";
 
 export default function PostPage() {
+  const [show, setShow] = useState(false);
+
   return (
     <AppShell username="Ngoc">
       <div className={styles.wrapper}>
@@ -17,9 +21,12 @@ export default function PostPage() {
         </div>
 
         <div className={styles.feed}>
-            <RequestList/>
+          
         </div>
+
+        
       </div>
     </AppShell>
   );
 }
+
