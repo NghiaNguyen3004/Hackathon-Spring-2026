@@ -70,21 +70,3 @@
     background-color: #e5e5e5;
   }
   
-  .fab {
-    position: fixed;
-    right: 24px;
-    bottom: 24px;
-    width: 72px;
-    height: 72px;
-    border: none;
-    border-radius: 50%;
-    background-color: #ff2b2b;
-    color: white;
-    font-size: 36px;
-    font-weight: 700;
-    cursor: pointer;
-  }
-  
-  .fab:hover {
-    transform: scale(1.05);
-  }

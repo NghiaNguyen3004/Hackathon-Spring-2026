@@ -14,7 +14,6 @@ export default function AppShell({
   username = "Username",
 }: AppShellProps) {
 
-  const [show, setShow] = useState(false);
   return (
     <main className={styles.page}>
       <div className={styles.container}>
@@ -29,10 +28,7 @@ export default function AppShell({
 
           <aside className={styles.rightArea}>
           
-          <button className={styles.fab} onClick={() => setShow(true)}>+</button>
-          <RequestModal isOpen = {show} onClose ={() => setShow(false)}>  
-            <h1>Hi</h1>
-          </RequestModal>
+        
           </aside>
         </div>
       </div>

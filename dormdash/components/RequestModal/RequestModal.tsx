@@ -1,46 +1,42 @@
 "use client";
-import {ReactElement, ReactNode, useEffect} from "react";
+import { ReactNode, useEffect } from "react";
+import styles from "./RequestModal.module.css";
 
 interface RequestModalProps {
-    children :ReactNode;
+    children: ReactNode;
     isOpen: boolean;
-    onClose: () => void; //to handle when to close the modal
+    onClose: () => void;
 }
 
 export default function RequestModal({
     children,
     isOpen,
-    onClose
-} : RequestModalProps){
-
-    if (!isOpen) return null;
-    const handleClose = (e)=>{
-       if (e.target.id === 'wrapper') onClose();
-    }
-
-    //Disable the behind when open
+    onClose,
+}: RequestModalProps) {
     useEffect(() => {
-        document.body.style.overflow = 'hidden';
-        return(): void => {
-            document.body.style.overflow = 'unset';
+        if (!isOpen) return;
+
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = "unset";
         };
     }, [isOpen]);
 
-    
+    if (!isOpen) return null;
 
-    return(
-        <main>
-            <div className = "fixed top-0 left-0 w-screen h-screen z-40 bg-black bg-opacity-50" onClick={handleClose} id ='wrapper'/>
-            <div className="w-[600px] flex flex-col">
-                <button className = "text-black text-xl place-self-end" onClick={() => onClose()}>X</button>
-                <div className ="bg-black p-10 text-center">
-                    <div className= "bg-white p-2 rounded">{children}</div>
-                </div>
+    return (
+        <div className={styles.overlay} onClick={onClose}>
+            <div
+                className={styles.modal}
+                onClick={(event) => event.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+            >
+                <button className={styles.closeButton} onClick={onClose} aria-label="Close modal">
+                    x
+                </button>
+                <div className={styles.content}>{children}</div>
             </div>
-            
-        </main>
-        
-        
+        </div>
     );
-    
 }

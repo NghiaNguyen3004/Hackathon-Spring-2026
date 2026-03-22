@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import AppShell from "@/components/Layout/AppShell";
+import RequestModal from "@/components/RequestModal/RequestModal";
 import styles from "./PostPage.module.css";
 import {
   collection,
@@ -33,6 +34,9 @@ type Post = {
 
 export default function PostPage() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
+  const [newDescription, setNewDescription] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -53,7 +57,7 @@ export default function PostPage() {
     return () => unsubscribe();
   }, []);
 
-  const handleAddPost = async () => {
+  const openAddModal = async () => {
     const user = auth.currentUser;
 
     if (!user) {
@@ -61,15 +65,27 @@ export default function PostPage() {
       return;
     }
 
-    const title = window.prompt("Enter post title:");
-    if (!title || !title.trim()) return;
+    setNewTitle("");
+    setNewDescription("");
+    setIsAddModalOpen(true);
+  };
 
-    const description = window.prompt("Enter post description:") || "";
+  const handleSubmitPost = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const user = auth.currentUser;
+
+    if (!user) {
+      alert("You must log in first.");
+      return;
+    }
+
+    if (!newTitle.trim()) return;
 
     try {
       await addDoc(collection(db, "posts"), {
-        title: title.trim(),
-        description: description.trim(),
+        title: newTitle.trim(),
+        description: newDescription.trim(),
         authorId: user.uid,
         authorUsername: user.displayName || user.email || "Unknown User",
         createdAt: serverTimestamp(),
@@ -78,6 +94,10 @@ export default function PostPage() {
         acceptedByUsername: null,
         ignoredBy: [],
       });
+
+      setIsAddModalOpen(false);
+      setNewTitle("");
+      setNewDescription("");
     } catch (error) {
       console.error("Error adding post:", error);
       alert("Failed to add post.");
@@ -231,9 +251,55 @@ export default function PostPage() {
           )}
         </div>
 
-        <button className={styles.fab} onClick={handleAddPost}>
+        <div>
+          <button className={styles.fab} onClick={openAddModal}>
           +
         </button>
+        </div>
+        <RequestModal
+          isOpen={isAddModalOpen}
+          onClose={() => setIsAddModalOpen(false)}
+        >
+          <div role="dialog" aria-modal="true" aria-labelledby="create-request-title">
+            <h3 id="create-request-title" className={styles.modalTitle}>
+              Create a Request
+            </h3>
+
+            <form onSubmit={handleSubmitPost} className={styles.modalForm}>
+              <input
+                type="text"
+                placeholder="Request title"
+                value={newTitle}
+                onChange={(event) => setNewTitle(event.target.value)}
+                className={styles.modalInput}
+                autoFocus
+              />
+
+              <textarea
+                placeholder="Request description"
+                value={newDescription}
+                onChange={(event) => setNewDescription(event.target.value)}
+                className={styles.modalTextarea}
+                rows={4}
+              />
+
+              <div className={styles.modalActions}>
+                <button
+                  type="button"
+                  onClick={() => setIsAddModalOpen(false)}
+                  className={styles.cancelBtn}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className={styles.submitBtn}>
+                  Post
+                </button>
+              </div>
+            </form>
+          </div>
+        </RequestModal>
+
+        
       </div>
     </AppShell>
   );
