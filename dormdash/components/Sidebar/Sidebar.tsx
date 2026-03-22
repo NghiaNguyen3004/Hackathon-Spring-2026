@@ -27,7 +27,7 @@ export default function Sidebar() {
             className={`flex items-center gap-3 px-4 py-3 transition-all duration-200
             ${
               isActive
-              ? "bg-red-500 text-white shadow-md"
+              ? "bg-red-600 text-white shadow-md"
               : "hover:bg-red-300"
             }`}>
               <Icon size={20} />

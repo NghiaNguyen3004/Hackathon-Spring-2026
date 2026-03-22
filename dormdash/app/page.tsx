@@ -17,7 +17,7 @@ export default function Home() {
 
       {/*Gif */}
       <div className = "mb-12">
-        <div className ="flex item-end gap-2">
+        <div className ="flex items-end gap-2">
           <Image src = "/courier.gif" alt = "" width = {350} height = {250}
           unoptimized={true}/>
         </div>
