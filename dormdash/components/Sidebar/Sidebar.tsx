@@ -1,32 +1,40 @@
+"use client"
+
 import Link from "next/link";
-import styles from "./Sidebar.module.css";
+import { usePathname } from "next/navigation";
+import { Home, FileText, MessageCircle, User } from "lucide-react";
 
 export default function Sidebar() {
-  return (
-    <aside className={styles.sidebar}>
-      <h2 className={styles.title}>Menu</h2>
+  const pathname = usePathname();
 
-      <nav className={styles.nav}>
-        <Link href="/post" className={styles.active}>
-          Post Page
-        </Link>
+  const links = [
+    {name: "post", path: "/post", icon: Home},
+    {name: "requests", path: "/requests", icon: FileText},
+    {name: "messages", path: "/messages", icon: MessageCircle},
+    {name: "Profile", path: "/profile", icon: User},
+  ];
 
-        <Link href="/myposts" className={styles.item}>
-          My Posts
-        </Link>
+  return(
+    <nav className="space-y-2">
+      {links.map((link) => {
+        const isActive = pathname === link.path;
+        const Icon = link.icon;
 
-        <Link href="/requests" className={styles.item}>
-          Requests
-        </Link>
-
-        <Link href="/messages" className={styles.item}>
-          Messages
-        </Link>
-
-        <Link href="/profile" className={styles.item}>
-          Profile
-        </Link>
-      </nav>
-    </aside>
-  );
+        return(
+          <Link
+            key={link.path}
+            href={link.path}
+            className={`flex items-center gap-3 px-4 py-3 transition-all duration-200
+            ${
+              isActive
+              ? "bg-red-500 text-white shadow-md"
+              : "hover:bg-red-300"
+            }`}>
+              <Icon size={20} />
+              <span className="font-medium">{link.name}</span>
+            </Link>
+        )
+      })}
+    </nav>
+  )
 }
