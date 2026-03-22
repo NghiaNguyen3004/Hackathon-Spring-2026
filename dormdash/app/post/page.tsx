@@ -1,6 +1,7 @@
 import AppShell from "@/components/Layout/AppShell";
 import PostCard from "@/components/PostCard/PostCard";
 import styles from "./PostPage.module.css";
+import RequestList from "@/components/RequestList/RequestList";
 
 export default function PostPage() {
   return (
@@ -16,15 +17,7 @@ export default function PostPage() {
         </div>
 
         <div className={styles.feed}>
-          <PostCard
-            username="Nghia"
-            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-          />
-
-          <PostCard
-            username="Evelyn"
-            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-          />
+            <RequestList/>
         </div>
       </div>
     </AppShell>

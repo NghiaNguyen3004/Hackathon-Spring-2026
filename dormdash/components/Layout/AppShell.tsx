@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
 import styles from "./AppShell.module.css";
+import Link from "next/link";
 
 type AppShellProps = {
   children: ReactNode;
@@ -27,7 +28,11 @@ export default function AppShell({
           <aside className={styles.rightArea}>
           
 
-            <button className={styles.fab}>+</button>
+          <Link href = "/request"
+          className = "flex-1 bg-red hover:bg-gray-300 text-gray-600 text-sm font-semibold py-3 text-center transition-colors duration-200 rounded-md">
+            +
+          </Link>
+          
           </aside>
         </div>
       </div>

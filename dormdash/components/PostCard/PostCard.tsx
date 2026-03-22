@@ -1,11 +1,11 @@
 import styles from "./PostCard.module.css";
 
-type PostCardProps = {
+interface PostCardProps {
   username: string;
   content: string;
-};
+}
 
-export default function PostCard({ username, content }: PostCardProps) {
+function PostCard({username, content}: PostCardProps) {
   return (
     <div className={styles.card}>
       
@@ -28,3 +28,5 @@ export default function PostCard({ username, content }: PostCardProps) {
     </div>
   );
 }
+
+export default PostCard;
