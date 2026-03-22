@@ -150,3 +150,16 @@
   font-weight: 700;
   cursor: pointer;
 }
+.postStatusPending {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #d97706;
+}
+
+.postStatusAccepted {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #16a34a;
+}

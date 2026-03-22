@@ -16,7 +16,6 @@ import {
   arrayUnion,
   getDocs,
   where,
-  getDoc,
 } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 
@@ -68,18 +67,11 @@ export default function PostPage() {
     const description = window.prompt("Enter post description:") || "";
 
     try {
-      const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
-
-      const username = userSnap.exists()
-        ? userSnap.data().username || "Unknown User"
-        : "Unknown User";
-
       await addDoc(collection(db, "posts"), {
         title: title.trim(),
         description: description.trim(),
         authorId: user.uid,
-        authorUsername: username,
+        authorUsername: user.displayName || user.email || "Unknown User",
         createdAt: serverTimestamp(),
         status: "open",
         acceptedById: null,
@@ -101,17 +93,10 @@ export default function PostPage() {
     }
 
     try {
-      const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
-
-      const username = userSnap.exists()
-        ? userSnap.data().username || "Unknown User"
-        : "Unknown User";
-
       await updateDoc(doc(db, "posts", post.id), {
         status: "assigned",
         acceptedById: user.uid,
-        acceptedByUsername: username,
+        acceptedByUsername: user.displayName || user.email || "Unknown User",
       });
     } catch (error) {
       console.error("Error accepting post:", error);
@@ -146,13 +131,6 @@ export default function PostPage() {
     }
 
     try {
-      const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
-
-      const myUsername = userSnap.exists()
-        ? userSnap.data().username || "Unknown User"
-        : "Unknown User";
-
       const chatsRef = collection(db, "chats");
       const q = query(chatsRef, where("members", "array-contains", user.uid));
       const snapshot = await getDocs(q);
@@ -173,7 +151,10 @@ export default function PostPage() {
       if (!existingChatId) {
         const newChat = await addDoc(chatsRef, {
           members: [user.uid, post.authorId],
-          memberNames: [myUsername, post.authorUsername],
+          memberNames: [
+            user.displayName || user.email || "Unknown User",
+            post.authorUsername || "Unknown User",
+          ],
           createdAt: serverTimestamp(),
         });
 

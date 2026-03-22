@@ -8,9 +8,8 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   const links = [
-    {name: "post", path: "/post", icon: Home},
-    {name: "requests", path: "/requests", icon: FileText},
-    {name: "messages", path: "/messages", icon: MessageCircle},
+    {name: "Post", path: "/post", icon: Home},
+    {name: "Messages", path: "/messages", icon: MessageCircle},
     {name: "Profile", path: "/profile", icon: User},
   ];
 

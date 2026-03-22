@@ -38,9 +38,7 @@ export default function ProfilePage() {
 
       if (user) {
         const filteredMyPosts = data.filter((post) => post.authorId === user.uid);
-        const filteredAssigned = data.filter(
-          (post) => post.acceptedById === user.uid
-        );
+        const filteredAssigned = data.filter((post) => post.acceptedById === user.uid);
 
         setMyPosts(filteredMyPosts);
         setAssignedRequests(filteredAssigned);
@@ -93,9 +91,22 @@ export default function ProfilePage() {
                     {myPosts.map((post) => (
                       <div key={post.id} className={styles.myPostItem}>
                         <p className={styles.myPostTitle}>{post.title}</p>
+
                         {post.description ? (
                           <p className={styles.myPostDesc}>{post.description}</p>
                         ) : null}
+
+                        <p
+                          className={
+                            post.acceptedByUsername
+                              ? styles.postStatusAccepted
+                              : styles.postStatusPending
+                          }
+                        >
+                          {post.acceptedByUsername
+                            ? `Accepted by ${post.acceptedByUsername}`
+                            : "Pending"}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -122,9 +133,11 @@ export default function ProfilePage() {
                     {assignedRequests.map((post) => (
                       <div key={post.id} className={styles.myPostItem}>
                         <p className={styles.myPostTitle}>{post.title}</p>
+
                         {post.description ? (
                           <p className={styles.myPostDesc}>{post.description}</p>
                         ) : null}
+
                         <p className={styles.myPostDesc}>
                           Posted by {post.authorUsername}
                         </p>
