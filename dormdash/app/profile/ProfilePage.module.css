@@ -1,0 +1,152 @@
+.wrapper {
+  padding: 36px 48px;
+}
+
+.pageTitle {
+  font-size: 48px;
+  font-weight: 700;
+  color: #14213d;
+  margin-bottom: 24px;
+}
+
+.content {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.profileCard {
+  width: 360px;
+  background: #ff2a2f;
+  border-radius: 28px;
+  padding: 28px 24px;
+  color: white;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: #cfd3db;
+  margin: 0 auto 18px;
+}
+
+.username {
+  text-align: center;
+  font-size: 34px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.email {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.bio {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.editButton {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  background: #d60000;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 22px;
+}
+
+.myPostsBox {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.myPostsTitle {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.myPostsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.myPostItem {
+  background: white;
+  color: #111827;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.myPostTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.myPostDesc {
+  font-size: 14px;
+  color: #444;
+}
+
+.emptyText {
+  font-size: 14px;
+  color: white;
+  opacity: 0.95;
+}
+
+.rightPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.dropdownButton {
+  width: 100%;
+  background: #ff2a2f;
+  color: white;
+  border: none;
+  border-radius: 18px;
+  padding: 22px 24px;
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.dropdownContent {
+  background: white;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.requestButton {
+  align-self: flex-end;
+  margin-top: 8px;
+  background: #18c84b;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
