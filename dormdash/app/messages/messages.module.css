@@ -1,0 +1,283 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .headerRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  
+  .pageTitle {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #222;
+  }
+  
+  .searchBarWrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 420px;
+    max-width: 100%;
+  }
+  
+  .searchInput {
+    flex: 1;
+    height: 42px;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    padding: 0 14px;
+    outline: none;
+    background: #f8f8f8;
+    font-size: 14px;
+  }
+  
+  .searchInput:focus {
+    border-color: #ff2b2b;
+    background: #fff;
+  }
+  
+  .searchButton {
+    height: 42px;
+    border: none;
+    border-radius: 10px;
+    padding: 0 16px;
+    background: #ff2b2b;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .searchResultsBox {
+    background: #f5f5f5;
+    border-radius: 16px;
+    padding: 10px;
+  }
+  
+  .searchResultItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+  
+  .searchResultItem:hover {
+    background: #ececec;
+  }
+  
+  .resultInfo {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .resultName {
+    font-size: 16px;
+    font-weight: 700;
+    color: #222;
+  }
+  
+  .resultSub {
+    font-size: 13px;
+    color: #666;
+    margin-top: 2px;
+  }
+  
+  .chatListCard {
+    background: #f3f3f3;
+    border-radius: 18px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 500px;
+  }
+  
+  .chatPreview {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    border-radius: 16px;
+    background: #f7f7f7;
+    cursor: pointer;
+    transition: 0.2s ease;
+  }
+  
+  .chatPreview:hover {
+    background: #ececec;
+  }
+  
+  .chatPreviewContent {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .chatPreviewTopRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .chatUsername {
+    font-size: 17px;
+    font-weight: 700;
+    color: #222;
+  }
+  
+  .chatLastMessage {
+    font-size: 14px;
+    color: #666;
+    margin-top: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .avatar {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 50%;
+    background: #d9d9d9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #444;
+  }
+  
+  .emptyState {
+    color: #666;
+    font-size: 14px;
+    padding: 16px;
+  }
+  
+  .chatRoomCard {
+    background: #f3f3f3;
+    border-radius: 18px;
+    min-height: 620px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  
+  .chatRoomHeader {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 16px 18px;
+    border-bottom: 1px solid #e2e2e2;
+    background: #f7f7f7;
+  }
+  
+  .backButton {
+    border: none;
+    background: #ff2b2b;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .chatRoomUser {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .chatRoomName {
+    font-size: 18px;
+    font-weight: 700;
+    color: #222;
+  }
+  
+  .chatRoomSub {
+    font-size: 13px;
+    color: #666;
+    margin-top: 2px;
+  }
+  
+  .messagesArea {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px;
+    background: #f3f3f3;
+  }
+  
+  .emptyMessages {
+    color: #777;
+    font-size: 14px;
+  }
+  
+  .messageRow {
+    display: flex;
+    margin-bottom: 12px;
+  }
+  
+  .myRow {
+    justify-content: flex-end;
+  }
+  
+  .otherRow {
+    justify-content: flex-start;
+  }
+  
+  .messageBubble {
+    max-width: 70%;
+    padding: 12px 14px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  
+  .myBubble {
+    background: #ff2b2b;
+    color: white;
+    border-bottom-right-radius: 6px;
+  }
+  
+  .otherBubble {
+    background: white;
+    color: #222;
+    border: 1px solid #ddd;
+    border-bottom-left-radius: 6px;
+  }
+  
+  .inputArea {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    border-top: 1px solid #e2e2e2;
+    background: #f7f7f7;
+  }
+  
+  .messageInput {
+    flex: 1;
+    height: 44px;
+    border: 1px solid #d7d7d7;
+    border-radius: 12px;
+    padding: 0 14px;
+    outline: none;
+    font-size: 14px;
+    background: #fff;
+  }
+  
+  .sendButton {
+    height: 44px;
+    border: none;
+    border-radius: 12px;
+    padding: 0 18px;
+    background: #ff2b2b;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+  }
