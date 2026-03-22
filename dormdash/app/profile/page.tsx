@@ -1,9 +1,24 @@
-
 "use client";
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import AppShell from "@/components/Layout/AppShell";
+import { auth, db } from "@/lib/firebase";
+
+type SectionKey = "pending" | "assigned" | null;
+
+type ProfileData = {
+  username: string;
+  email: string;
+};
 
 export default function ProfilePage() {
-  const [openSection, setOpenSection] = useState<"pending" | "assigned" | null>(null);
+  const [openSection, setOpenSection] = useState<SectionKey>(null);
+  const [profile, setProfile] = useState<ProfileData>({
+    username: "Loading...",
+    email: "Loading...",
+  });
 
   const pendingRequests = [
     {
@@ -25,90 +40,161 @@ export default function ProfilePage() {
     },
   ];
 
-  const Section = ({
-    name,
-    requests,
-  }: {
-    name: string;
-    requests: typeof pendingRequests;
-  }) => (
-    <div
-      className="bg-red-500 p-4 rounded-2xl shadow-lg cursor-pointer hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
-      onClick={() =>
-        setOpenSection(openSection === name.toLowerCase() ? null : name.toLowerCase() as "pending" | "assigned")
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        setProfile({
+          username: "Guest",
+          email: "Not signed in",
+        });
+        return;
       }
+
+      try {
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists()) {
+          const data = userSnap.data();
+
+          setProfile({
+            username: data.username || "User",
+            email: data.email || user.email || "No email",
+          });
+        } else {
+          setProfile({
+            username: "User",
+            email: user.email || "No email",
+          });
+        }
+      } catch (error) {
+        console.error("Failed to load profile:", error);
+        setProfile({
+          username: "User",
+          email: user.email || "No email",
+        });
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const toggleSection = (section: SectionKey) => {
+    setOpenSection(openSection === section ? null : section);
+  };
+
+  return (
+    <AppShell username={profile.username}>
+      <div className="min-h-full bg-[#dfdfdf] p-6">
+        <div className="mx-auto max-w-6xl">
+          <h1 className="mb-6 text-4xl font-bold text-gray-900">Profile</h1>
+
+          <main className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <section className="rounded-3xl bg-red-500 p-6 shadow-lg">
+              <div className="flex flex-col items-center">
+                <div className="mb-4 h-24 w-24 rounded-full bg-gray-300" />
+                <h2 className="text-3xl font-bold text-white">
+                  {profile.username}
+                </h2>
+                <p className="mt-1 text-white">{profile.email}</p>
+                <p className="mt-3 text-lg font-semibold text-white">User Bio</p>
+
+                <button className="mt-4 w-full rounded-lg bg-red-700 py-2 text-white transition hover:opacity-80">
+                  Edit Profile
+                </button>
+              </div>
+
+              <div className="mt-6 space-y-2">
+                <div className="flex justify-between rounded-lg bg-green-300 p-2 text-gray-900">
+                  <span>Requests Submitted</span>
+                  <span className="font-semibold">5</span>
+                </div>
+
+                <div className="flex justify-between rounded-lg bg-gray-300 p-2 text-gray-900">
+                  <span>Requests Completed</span>
+                  <span className="font-semibold">3</span>
+                </div>
+
+                <div className="flex justify-between rounded-lg bg-yellow-300 p-2 text-gray-900">
+                  <span>Requests Pending</span>
+                  <span className="font-semibold">2</span>
+                </div>
+              </div>
+            </section>
+
+            <section className="space-y-4 md:col-span-2">
+              <DropdownSection
+                title="Pending Requests"
+                isOpen={openSection === "pending"}
+                onClick={() => toggleSection("pending")}
+                requests={pendingRequests}
+              />
+
+              <DropdownSection
+                title="Assigned Requests"
+                isOpen={openSection === "assigned"}
+                onClick={() => toggleSection("assigned")}
+                requests={assignedRequests}
+              />
+
+              <div className="flex justify-end">
+                <button className="rounded-lg bg-green-500 px-6 py-2 font-semibold text-white transition hover:opacity-80">
+                  Request New Help
+                </button>
+              </div>
+            </section>
+          </main>
+        </div>
+      </div>
+    </AppShell>
+  );
+}
+
+function DropdownSection({
+  title,
+  isOpen,
+  onClick,
+  requests,
+}: {
+  title: string;
+  isOpen: boolean;
+  onClick: () => void;
+  requests: {
+    title: string;
+    date: string;
+    time: string;
+    location: string;
+    notes: string;
+  }[];
+}) {
+  return (
+    <div
+      className="cursor-pointer rounded-2xl bg-red-500 p-4 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+      onClick={onClick}
     >
-      <div className="flex justify-between items-center text-white font-semibold text-lg">
-        {name}
-        <span>{openSection === name.toLowerCase() ? "▲" : "▼"}</span>
+      <div className="flex items-center justify-between text-lg font-semibold text-white">
+        <span>{title}</span>
+        <span>{isOpen ? "▲" : "▼"}</span>
       </div>
 
-      {openSection === name.toLowerCase() && (
-        <div className="mt-3 space-y-2 text-white/90 text-sm pl-2">
-          {requests.map((r, i) => (
-            <div key={i} className="p-2 border rounded-lg bg-red-600">
-              <p><strong>{r.title}</strong></p>
-              <p>Date: {r.date}</p>
-              <p>Time: {r.time}</p>
-              <p>Location: {r.location}</p>
-              <p>Notes: {r.notes}</p>
+      {isOpen && (
+        <div className="mt-3 space-y-2 pl-2 text-sm text-white/90">
+          {requests.map((request, index) => (
+            <div
+              key={`${title}-${index}`}
+              className="rounded-lg border bg-red-600 p-3"
+            >
+              <p>
+                <strong>{request.title}</strong>
+              </p>
+              <p>Date: {request.date}</p>
+              <p>Time: {request.time}</p>
+              <p>Location: {request.location}</p>
+              <p>Notes: {request.notes}</p>
             </div>
           ))}
         </div>
       )}
-    </div>
-  );
-
-  return (
-    <div className="min-h-screen bg-white text-gray-800">
-      {/* Header */}
-      <header className="flex justify-between items-center p-15 bg-red-500 text-white">
-        <h1 className="text-4xl font-bold">DormDash</h1>
-        <div className="flex items-center space-x-4">
-            <p className="text-2xl text-white font-bold">Username</p>
-          <div className="w-20 h-20 bg-gray-200 rounded-full" />
-        </div>
-      </header>
-
-      {/* Main content */}
-      <main className="flex-grow max-w-6xl mx-auto mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        {/* Left column: Profile info */}
-        <div className="bg-red-500 p-6 rounded-2xl shadow-lg flex flex-col items-center">
-          <div className="w-24 h-24 bg-gray-300 rounded-full mb-4"></div>
-          <h2 className="text-3xl text-white font-bold">Name abcdxyz</h2>
-          <p className="text-white">evelyn@example.com</p>
-          <p className="text-lg font-semibold text-white">User Bio</p>
-          <button className="mt-4 w-full bg-red-700 text-white py-2 rounded-lg hover:opacity-80">
-            Edit Profile
-          </button>
-
-          {/* User Stats */}
-          <div className="mt-6 w-full space-y-2">
-            <div className="flex justify-between p-2 bg-green-300 rounded-lg">
-              Requests Submitted <span className="font-semibold">5</span>
-            </div>
-            <div className="flex justify-between p-2 bg-gray-300 rounded-lg">
-              Requests Completed <span className="font-semibold">3</span>
-            </div>
-            <div className="flex justify-between p-2 bg-yellow-300 rounded-lg">
-              Requests Pending <span className="font-semibold">2</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Right column: Requests */}
-        <div className="md:col-span-2 space-y-4">
-          <Section name="Pending Requests" requests={pendingRequests} />
-          <Section name="Assigned Requests" requests={assignedRequests} />
-
-          {/* CTA button */}
-          <div className="flex justify-end mt-4">
-            <button className="bg-green-500 text-white py-2 px-6 rounded-lg font-semibold hover:opacity-80">
-              Request New Help
-            </button>
-          </div>
-        </div>
-      </main>
     </div>
   );
 }
