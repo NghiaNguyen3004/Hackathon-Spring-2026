@@ -12,11 +12,15 @@ type Post = {
   description: string;
   authorId: string;
   authorUsername: string;
+  status?: "open" | "assigned";
+  acceptedById?: string | null;
+  acceptedByUsername?: string | null;
 };
 
 export default function ProfilePage() {
-  const [openSection, setOpenSection] = useState<"pending" | "assigned" | null>(null);
+  const [openSection, setOpenSection] = useState<"myposts" | "assigned" | null>(null);
   const [myPosts, setMyPosts] = useState<Post[]>([]);
+  const [assignedRequests, setAssignedRequests] = useState<Post[]>([]);
 
   const user = auth.currentUser;
 
@@ -24,19 +28,25 @@ export default function ProfilePage() {
     const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data: Post[] = snapshot.docs.map((doc) => {
-        const value = doc.data() as Omit<Post, "id">;
+      const data: Post[] = snapshot.docs.map((docSnap) => {
+        const value = docSnap.data() as Omit<Post, "id">;
         return {
-          id: doc.id,
+          id: docSnap.id,
           ...value,
         };
       });
 
       if (user) {
-        const filtered = data.filter((post) => post.authorId === user.uid);
-        setMyPosts(filtered);
+        const filteredMyPosts = data.filter((post) => post.authorId === user.uid);
+        const filteredAssigned = data.filter(
+          (post) => post.acceptedById === user.uid
+        );
+
+        setMyPosts(filteredMyPosts);
+        setAssignedRequests(filteredAssigned);
       } else {
         setMyPosts([]);
+        setAssignedRequests([]);
       }
     });
 
@@ -67,14 +77,14 @@ export default function ProfilePage() {
             <button
               className={styles.dropdownButton}
               onClick={() =>
-                setOpenSection(openSection === "pending" ? null : "pending")
+                setOpenSection(openSection === "myposts" ? null : "myposts")
               }
             >
               My Posts
               <span>▼</span>
             </button>
 
-            {openSection === "pending" && (
+            {openSection === "myposts" && (
               <div className={styles.dropdownContent}>
                 {myPosts.length === 0 ? (
                   <p className={styles.emptyTextDark}>You have not posted anything yet.</p>
@@ -105,11 +115,26 @@ export default function ProfilePage() {
 
             {openSection === "assigned" && (
               <div className={styles.dropdownContent}>
-                <p className={styles.emptyTextDark}>No assigned requests yet.</p>
+                {assignedRequests.length === 0 ? (
+                  <p className={styles.emptyTextDark}>No assigned requests yet.</p>
+                ) : (
+                  <div className={styles.myPostsList}>
+                    {assignedRequests.map((post) => (
+                      <div key={post.id} className={styles.myPostItem}>
+                        <p className={styles.myPostTitle}>{post.title}</p>
+                        {post.description ? (
+                          <p className={styles.myPostDesc}>{post.description}</p>
+                        ) : null}
+                        <p className={styles.myPostDesc}>
+                          Posted by {post.authorUsername}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
-            <button className={styles.requestButton}>Request New Help</button>
           </div>
         </div>
       </div>

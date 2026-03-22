@@ -43,4 +43,33 @@
     margin: 0;
     color: #555;
   }
-  
+  .cardActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.acceptBtn,
+.ignoreBtn,
+.messageBtn {
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.acceptBtn {
+  background: #18c84b;
+  color: white;
+}
+
+.ignoreBtn {
+  background: #d9d9d9;
+  color: #111;
+}
+
+.messageBtn {
+  background: #2563eb;
+  color: white;
+}
